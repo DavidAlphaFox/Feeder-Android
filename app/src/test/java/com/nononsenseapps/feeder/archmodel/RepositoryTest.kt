@@ -144,9 +144,10 @@ class RepositoryTest : DIAware {
     }
 
     @Test
-    fun setCurrentFeedAndTagFeedReportsShortcut() {
+    fun setCurrentFeedAndTagFeedReportsShortcutAndUpdatesMinReadTime() {
         coEvery { feedStore.getDisplayTitle(10L) } returns "fooFeed"
-        coEvery { settingsStore.setCurrentFeedAndTag(any(), any()) } just Runs
+        coEvery { settingsStore.setCurrentFeedAndTag(any(), any()) } returns true
+        coEvery { settingsStore.setMinReadTime(any()) } just Runs
 
         mockkStatic("com.nononsenseapps.feeder.util.ContextExtensionsKt")
 
@@ -159,6 +160,22 @@ class RepositoryTest : DIAware {
                 null,
             )
             application.reportShortcutToFeedUsed(10L)
+            settingsStore.setMinReadTime(any())
+        }
+    }
+
+    @Test
+    fun setCurrentFeedAndTagToSameDoesntChangeMinReadTime() {
+        coEvery { feedStore.getDisplayTitle(10L) } returns "fooFeed"
+        coEvery { settingsStore.setCurrentFeedAndTag(any(), any()) } returns false
+        coEvery { settingsStore.setMinReadTime(any()) } just Runs
+
+        mockkStatic("com.nononsenseapps.feeder.util.ContextExtensionsKt")
+
+        repository.setCurrentFeedAndTag(10L, "")
+
+        coVerify(exactly = 0, timeout = 500L) {
+            settingsStore.setMinReadTime(any())
         }
     }
 
