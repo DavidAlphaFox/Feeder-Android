@@ -14,10 +14,11 @@
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-  <permission
+  <!-- TODO move to non-debug flavors-->
+  <!-- <permission
     android:name="com.nononsenseapps.feeder.permission.read"
     android:description="@string/permission_read_desc"
-    android:label="@string/permission_read_label" />
+    android:label="@string/permission_read_label" /> -->
 
   <queries>
     <!-- So a barcode scanner can be invoked -->
@@ -190,10 +191,11 @@
       android:launchMode="singleInstance"
       android:taskAffinity="${applicationId}.OpenLinkTask" />
 
-    <provider
+  <!-- TODO flavor specific authorities-->
+    <!-- <provider
       android:name=".contentprovider.RSSContentProvider"
       android:authorities="com.nononsenseapps.feeder.rssprovider"
       android:exported="true"
-      android:readPermission="com.nononsenseapps.feeder.permission.read" />
+      android:readPermission="com.nononsenseapps.feeder.permission.read" /> -->
   </application>
 </manifest>
